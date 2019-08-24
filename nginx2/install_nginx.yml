@@ -1,0 +1,62 @@
+- hosts: nginx
+  gather_facts: no
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: copy nginx config
+      template:
+        src: templates/nginx.conf
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - reload nginx
+
+    - name: copy site1 config
+      template:
+        src: templates/site1
+        dest: /etc/nginx/sites-available/site1
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - create site1 symlink
+        - reload nginx
+
+    - name: copy site2 config
+      template:
+        src: templates/site2
+        dest: /etc/nginx/sites-available/site2
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - create site2 symlink
+        - reload nginx
+
+  handlers:
+    - name: create site1 symlink
+      file:
+        src: /etc/nginx/sites-available/site1
+        dest: /etc/nginx/sites-enabled/site1
+        owner: root
+        group: root
+        state: link
+
+    - name: create site2 symlink
+      file:
+        src: /etc/nginx/sites-available/site2
+        dest: /etc/nginx/sites-enabled/site2
+        owner: root
+        group: root
+        state: link
+
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded    

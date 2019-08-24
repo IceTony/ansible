@@ -1,0 +1,6 @@
+server {
+        listen   8081;
+        root /var/www/site2;
+        index index.html;
+        server_name icetony.devops.rebrain.srwx.net www.icetony.devops.rebrain.srwx.net;
+}
