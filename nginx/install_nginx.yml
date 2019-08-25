@@ -6,3 +6,43 @@
         name: nginx
         state: present
         update_cache: yes
+
+    - name: copy nginx config
+      template:
+        src: templates/nginx.conf
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - reload nginx
+
+    - name: copy virtual hosts configs
+      template:
+        src: templates/site
+        dest: "/etc/nginx/sites-available/site{{ item.name }}"
+        owner: root
+        group: root
+        mode: 0644
+      loop:
+        - { name: "1", port: "8080" }
+        - { name: "2", port: "8081" }  
+
+    - name: create virtual hosts symlinks
+      file:
+        src: "/etc/nginx/sites-available/site{{ item }}"
+        dest: "/etc/nginx/sites-enabled/site{{ item }}"
+        owner: root
+        group: root
+        state: link
+      with_items:
+        - "1"
+        - "2"
+      notify:
+        - reload nginx
+
+  handlers:
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded    
