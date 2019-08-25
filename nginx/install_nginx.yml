@@ -1,5 +1,9 @@
 - hosts: nginx
   gather_facts: no
+  vars:
+    nginx_keepalive_timeout: "65"
+    nginx_user: "www-data"
+    nginx_worker_connections: "768"
   tasks:
     - name: install nginx
       apt:
@@ -30,8 +34,8 @@
 
     - name: create virtual hosts symlinks
       file:
-        src: "/etc/nginx/sites-available/site{{ item }}"
-        dest: "/etc/nginx/sites-enabled/site{{ item }}"
+        src: "{{ nginx_sites_available_path }}/site{{ item }}"
+        dest: "{{ nginx_sites_enabled_path }}/site{{ item }}"
         owner: root
         group: root
         state: link
