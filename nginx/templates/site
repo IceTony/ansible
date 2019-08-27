@@ -1,6 +1,6 @@
 server {
-        listen   {{ item.port }};
-        root /var/www/site{{ item.name }};
+        listen   80;
+        root /var/www/{{ item.name }};
         index index.html;
-        server_name icetony.devops.rebrain.srwx.net www.icetony.devops.rebrain.srwx.net;
+        server_name icetony-{{ item.name }}.devops.rebrain.srwx.net www.icetony-{{ item.name }}.devops.rebrain.srwx.net;
 }

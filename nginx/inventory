@@ -1,5 +1,5 @@
 [nginx]
-icetony.devops.rebrain.srwx.net
+icetony-site1.devops.rebrain.srwx.net
 [nginx:vars]
 ansible_ssh_user=root
 nginx_sites_available_path="/etc/nginx/sites-available"
