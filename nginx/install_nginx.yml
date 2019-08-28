@@ -4,6 +4,7 @@
     nginx_keepalive_timeout: "65"
     nginx_user: "www-data"
     nginx_worker_connections: "768"
+    nginx_enable_gzip: false
   tasks:
     - name: install nginx
       apt:
@@ -13,7 +14,7 @@
 
     - name: copy nginx config
       template:
-        src: templates/nginx.conf
+        src: templates/nginx.conf.j2
         dest: /etc/nginx/nginx.conf
         owner: root
         group: root
@@ -23,14 +24,31 @@
 
     - name: copy virtual hosts configs
       template:
-        src: templates/site
+        src: templates/site.j2
         dest: "{{ nginx_sites_available_path }}/{{ item.name }}"
         owner: root
         group: root
         mode: 0644
       loop:
         - { name: "site1" }
-        - { name: "site2" }  
+        - { name: "site2" } 
+
+    - name: create virtual hosts folders
+      file:
+        path: "/var/www/{{ item }}"
+        state: directory
+        mode: 0755
+        owner: www-data
+        group: www-data
+      with_items:
+        - "site1"
+        - "site2"
+
+    - name: add index files to virtual hosts
+      shell: echo "Hello from {{ item }} !" > /var/www/{{ item }}/index.html
+      with_items:
+        - "site1"
+        - "site2"
 
     - name: create virtual hosts symlinks
       file:

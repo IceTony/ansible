@@ -45,7 +45,12 @@ http {
 	# Gzip Settings
 	##
 
+{% if nginx_enable_gzip %}
 	gzip on;
+{% endif %}
+{% if not nginx_enable_gzip %}
+        gzip off;
+{% endif %}
 
 	# gzip_vary on;
 	# gzip_proxied any;
