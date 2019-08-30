@@ -1,0 +1,5 @@
+ansible_ssh_user: root
+nginx_keepalive_timeout: "65"
+nginx_user: "www-data"
+nginx_worker_connections: "768"
+
