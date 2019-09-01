@@ -1,2 +1,6 @@
 [nginx]
-icetony-site1.devops.rebrain.srwx.net
+icetony.devops.rebrain.srwx.net
+[letsencrypt]
+icetony.devops.rebrain.srwx.net
+[nginx:children]
+letsencrypt

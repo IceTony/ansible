@@ -1,0 +1,8 @@
+server {
+        listen   80;
+        root /var/www/{{ item }};
+        index index.html;
+        server_name {{ item }} www.{{ item }};
+        
+        # SSL configuration
+}
