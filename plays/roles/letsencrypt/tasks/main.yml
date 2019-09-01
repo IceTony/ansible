@@ -41,7 +41,7 @@
 - name: add letsencrypt cronjob for cert renewal
   cron:
     name: letsencrypt_renewal
-    minute: 0
-    hour: 3
+    minute: "0"
+    hour: "3"
     user: root
-    job: "00 3 * * * /usr/bin/certbot renew --quiet --renew-hook \"/bin/systemctl reload nginx\""
+    job: "/usr/bin/certbot renew --quiet --renew-hook \"/bin/systemctl reload nginx\""
