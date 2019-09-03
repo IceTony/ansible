@@ -1,8 +1,21 @@
 ---
 
-- name: install nginx (for redhat)
+- name: add nginx yum repo
+  yum_repository:
+    name: nginx
+    description: Nginx Repository
+    baseurl: http://nginx.org/packages/centos/7/$basearch/
+    gpgkey: http://nginx.org/packages/keys/nginx_signing.key
+    gpgcheck: yes
+
+- name: yum install nginx
   yum:
     name: nginx
     state: present
     update_cache: yes
+
+- name: start nginx
+  service:
+    name: nginx
+    state: started
 

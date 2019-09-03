@@ -1,6 +1,11 @@
 server {
         listen   80;
+{% if ansible_os_family == "Debian" %}
         root /var/www/{{ item }};
+{% endif %}
+{% if ansible_os_family == "RedHat" %}
+        root /usr/share/nginx/{{ item }};
+{% endif %}
         index index.html;
         server_name {{ item }} www.{{ item }};
         

@@ -1,4 +1,6 @@
-- name: install nginx (for debian)
+---
+
+- name: apt install nginx
   apt:
     name: nginx
     state: present

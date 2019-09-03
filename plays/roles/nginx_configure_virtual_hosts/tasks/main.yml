@@ -1,40 +1,11 @@
 ---
 
-- name: copy virtual hosts configs
-  template:
-    src: site.j2
-    dest: "{{ nginx_sites_available_path }}/{{ item }}"
-    owner: root
-    group: root
-    mode: 0644
-  with_items:
-    - "{{ nginx_site_name }}"
+- name: configure virtual hosts on debian-based systems
+  include_tasks: configure_vh_debian.yml
+  when:
+    - ansible_os_family == "Debian"
 
-- name: create virtual hosts folders
-  file:
-    path: "/var/www/{{ item }}"
-    state: directory
-    mode: 0755
-    owner: www-data
-    group: www-data
-  with_items:
-    - "{{ nginx_site_name }}"
-
-- name: create index files for virtual hosts
-  template:
-    src: index.html.j2
-    dest: /var/www/{{ item }}/index.html
-  with_items:
-    - "{{ nginx_site_name }}"
-
-- name: create virtual hosts symlinks
-  file:
-    src: "{{ nginx_sites_available_path }}/{{ item }}"
-    dest: "{{ nginx_sites_enabled_path }}/{{ item }}"
-    owner: root
-    group: root
-    state: link
-  with_items:
-    - "{{ nginx_site_name }}"
-  notify:
-    - reload nginx
+- name: configure virtual hosts on debian-based systems
+  include_tasks: configure_vh_redhat.yml
+  when:
+    - ansible_os_family == "RedHat"

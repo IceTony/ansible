@@ -10,12 +10,26 @@
   when:
     - ansible_os_family == "RedHat"
 
-      #- name: copy nginx config
-      #template:
-      # src: nginx.conf.j2
-      #dest: /etc/nginx/nginx.conf
-      #owner: root
-      #group: root
-      #mode: 0644
-      #notify:
-      #- reload nginx
+- name: copy nginx config on debian-based systems
+  template:
+    src: nginx.conf.debian.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload nginx
+  when:
+    - ansible_os_family == "Debian"
+
+- name: copy nginx config on redhat-based systems
+  template:
+    src: nginx.conf.redhat.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload nginx
+  when:
+    - ansible_os_family == "RedHat"
