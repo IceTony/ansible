@@ -1,0 +1,8 @@
+---
+
+- name: install nginx (for redhat)
+  yum:
+    name: nginx
+    state: present
+    update_cache: yes
+

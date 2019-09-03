@@ -1,0 +1,6 @@
+- name: install nginx (for debian)
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+

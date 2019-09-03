@@ -1,17 +1,21 @@
 ---
 
-- name: install nginx
-  apt:
-    name: nginx
-    state: present
-    update_cache: yes
+- name: install nginx on debian-based systems
+  include_tasks: nginx_debian.yml
+  when:
+    - ansible_os_family == "Debian"
 
-- name: copy nginx config
-  template:
-    src: nginx.conf.j2
-    dest: /etc/nginx/nginx.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify:
-    - reload nginx
+- name: install nginx on redhat-based systems
+  include_tasks: nginx_redhat.yml
+  when:
+    - ansible_os_family == "RedHat"
+
+      #- name: copy nginx config
+      #template:
+      # src: nginx.conf.j2
+      #dest: /etc/nginx/nginx.conf
+      #owner: root
+      #group: root
+      #mode: 0644
+      #notify:
+      #- reload nginx
