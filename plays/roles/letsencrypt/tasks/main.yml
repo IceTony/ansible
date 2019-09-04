@@ -1,47 +1,11 @@
 ---
 
-- name: install software-properties
-  apt:
-    name: software-properties-common
-    state: present
-    update_cache: yes
+- name: install letsencrypt certificate on debian-based systems
+  include_tasks: roles/letsencrypt/tasks/letsencrypt_debian.yml
+  when:
+    - ansible_os_family == "Debian"
 
-- name: add certbot repo
-  apt_repository:
-    repo: "ppa:certbot/certbot"
-
-- name: install certbot
-  apt:
-    name: certbot
-    state: present
-    update_cache: yes
-
-- name: create letsencrypt certificate
-  shell: certbot certonly --webroot -w {{ site_root }} -m {{ letsencrypt_mail }} --agree-tos -n -d {{ site_name }}
-
-- name: generate dh key
-  shell: openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-
-- name: change virtual host config
-  blockinfile:
-    path: "{{ nginx_sites_enabled_path }}/{{ site_name }}"
-    insertafter: "# SSL configuration"
-    block: |
-      listen 443 ssl;
-             
-      ssl_certificate /etc/letsencrypt/live/{{ site_name }}/fullchain.pem;
-      ssl_certificate_key /etc/letsencrypt/live/{{ site_name }}/privkey.pem;
-      ssl_dhparam /etc/ssl/certs/dhparam.pem;
-              
-      location ~ /\.($|!well-known/acme-challenge/*) {
-      deny all;
-      }
-  notify: reload nginx
-
-- name: add letsencrypt cronjob for cert renewal
-  cron:
-    name: letsencrypt_renewal
-    minute: "0"
-    hour: "3"
-    user: root
-    job: "/usr/bin/certbot renew --quiet --renew-hook \"/bin/systemctl reload nginx\""
+- name: install letsencrypt certificate on redhat-based systems
+  include_tasks: roles/letsencrypt/tasks/letsencrypt_redhat.yml
+  when:
+    - ansible_os_family == "RedHat"

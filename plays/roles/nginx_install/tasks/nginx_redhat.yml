@@ -13,9 +13,21 @@
     name: nginx
     state: present
     update_cache: yes
+  notify: start nginx
 
-- name: start nginx
-  service:
-    name: nginx
-    state: started
+- name: force run handler
+  meta: flush_handlers
+
+- name: firewall allow services
+  firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  with_items:
+    - "http"
+    - "https"
+  notify: reload firewalld
+
+- name: force run handler
+  meta: flush_handlers
 

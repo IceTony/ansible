@@ -1,5 +1,5 @@
 - name: Create Let's Encrypt certificate and ssl settings
   hosts: letsencrypt
-  gather_facts: no
+  gather_facts: yes
   roles:
     - letsencrypt

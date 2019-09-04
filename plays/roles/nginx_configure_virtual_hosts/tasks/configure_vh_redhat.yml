@@ -28,3 +28,6 @@
     - "{{ nginx_site_name }}"
   notify:
     - reload nginx
+
+- name: force run handler
+  meta: flush_handlers

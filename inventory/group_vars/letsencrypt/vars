@@ -1,4 +1,4 @@
 # letsencrypt
-site_name: "icetony.devops.rebrain.srwx.net"
-site_root: "/var/www/{{ site_name }}/"
+debian_site_root: "/var/www/{{ nginx_site_name }}/"
+redhat_site_root: "/usr/share/nginx/{{ nginx_site_name }}/"
 letsencrypt_mail: "icetony@mail.ru"

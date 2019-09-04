@@ -1,0 +1,51 @@
+---
+
+- name: install software-properties
+  apt:
+    name: software-properties-common
+    state: present
+    update_cache: yes
+
+- name: add certbot repo
+  apt_repository:
+    repo: "ppa:certbot/certbot"
+
+- name: install certbot
+  apt:
+    name: certbot
+    state: present
+    update_cache: yes
+
+- name: create letsencrypt certificate
+  command: certbot certonly --webroot -w {{ debian_site_root }} -m {{ letsencrypt_mail }} --agree-tos -n -d {{ nginx_site_name }}
+  args:
+    creates: /etc/letsencrypt/live/{{ nginx_site_name }}
+
+- name: generate dh key
+  command: openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+  args:
+    creates: /etc/ssl/certs/dhparam.pem
+
+- name: change virtual host config
+  blockinfile:
+    path: "{{ nginx_sites_enabled_path }}/{{ nginx_site_name }}"
+    insertafter: "# SSL configuration"
+    block: |
+      listen 443 ssl;
+             
+      ssl_certificate /etc/letsencrypt/live/{{ nginx_site_name }}/fullchain.pem;
+      ssl_certificate_key /etc/letsencrypt/live/{{ nginx_site_name }}/privkey.pem;
+      ssl_dhparam /etc/ssl/certs/dhparam.pem;
+              
+      location ~ /\.($|!well-known/acme-challenge/*) {
+      deny all;
+      }
+  notify: reload nginx
+
+- name: add letsencrypt cronjob for cert renewal
+  cron:
+    name: letsencrypt_renewal
+    minute: "0"
+    hour: "3"
+    user: root
+    job: "/usr/bin/certbot renew --quiet --renew-hook \"/bin/systemctl reload nginx\""

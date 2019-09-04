@@ -5,7 +5,7 @@
   when:
     - ansible_os_family == "Debian"
 
-- name: configure virtual hosts on debian-based systems
+- name: configure virtual hosts on redhat-based systems
   include_tasks: configure_vh_redhat.yml
   when:
     - ansible_os_family == "RedHat"
