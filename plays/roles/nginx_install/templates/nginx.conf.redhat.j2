@@ -6,7 +6,7 @@ pid        /var/run/nginx.pid;
 
 
 events {
-    worker_connections  1024;
+    worker_connections  {{ nginx_worker_connections }};
 }
 
 
@@ -20,8 +20,9 @@ http {
 
     access_log  /var/log/nginx/access.log  main;
 
-    sendfile        on;
-    #tcp_nopush     on;
+    sendfile        {{ nginx_sendfile }};
+    tcp_nopush      {{ nginx_tcp_nopush }};
+    tcp_nodelay     {{ nginx_tcp_nodelay }};
 
     keepalive_timeout  65;
 
