@@ -1,0 +1,13 @@
+- name: Install and configure phpmyadmin (by geerlingguy)
+  hosts: phpmyadmin
+  gather_facts: yes
+  vars:
+    ansible_ssh_user: root
+    php_default_version_debian: 7.2
+    php_mysql_package: php7.2-mysql
+  roles:
+    - geerlingguy.phpmyadmin
+  tasks:
+    - name: Update php module
+      apt: name=libapache2-mod-php7.2 state=installed
+      notify: restart apache
