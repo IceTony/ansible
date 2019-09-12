@@ -32,11 +32,11 @@
     insertafter: "# SSL configuration"
     block: |
       listen 443 ssl;
-             
+
       ssl_certificate /etc/letsencrypt/live/{{ nginx_site_name }}/fullchain.pem;
       ssl_certificate_key /etc/letsencrypt/live/{{ nginx_site_name }}/privkey.pem;
       ssl_dhparam /etc/ssl/certs/dhparam.pem;
-              
+
       location ~ /\.($|!well-known/acme-challenge/*) {
       deny all;
       }
