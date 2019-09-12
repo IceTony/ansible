@@ -1,6 +1,5 @@
 # nginx
 ansible_ssh_user: "root"
-ansible_ssh_password: "Pass123!"
 nginx_sites_available_path: "/etc/nginx/sites-available"
 nginx_sites_enabled_path: "/etc/nginx/sites-enabled"
 nginx_site_name: "icetony.devops.rebrain.srwx.net"

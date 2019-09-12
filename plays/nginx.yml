@@ -6,4 +6,3 @@
   roles:
     - nginx_install
     - nginx_configure_virtual_hosts  
-
