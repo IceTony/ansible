@@ -1,11 +1,11 @@
 ---
 
 - name: install letsencrypt certificate on debian-based systems
-  include_tasks: roles/letsencrypt/tasks/letsencrypt_debian.yml
+  include_tasks: letsencrypt_debian.yml
   when:
     - ansible_os_family == "Debian"
 
 - name: install letsencrypt certificate on redhat-based systems
-  include_tasks: roles/letsencrypt/tasks/letsencrypt_redhat.yml
+  include_tasks: letsencrypt_redhat.yml
   when:
     - ansible_os_family == "RedHat"
