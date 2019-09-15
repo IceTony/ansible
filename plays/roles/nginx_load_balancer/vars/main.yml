@@ -1,0 +1,10 @@
+# load balancer
+ansible_ssh_user: "root"
+nginx_worker_connections: "768"
+nginx_sendfile: "on"
+nginx_tcp_nopush: "on"
+nginx_tcp_nodelay: "on"
+nginx_site_name: "{{ inventory_hostname }}"
+nginx_sites_available_path: "/etc/nginx/sites-available"
+nginx_sites_enabled_path: "/etc/nginx/sites-enabled"
+nginx_backend_address: "icetony-site2.devops.rebrain.srwx.net"

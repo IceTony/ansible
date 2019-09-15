@@ -1,0 +1,5 @@
+[nginx]
+icetony-site2.devops.rebrain.srwx.net
+
+[load_balancer]
+icetony-site1.devops.rebrain.srwx.net

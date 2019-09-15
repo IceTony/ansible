@@ -2,7 +2,7 @@
 ansible_ssh_user: "root"
 nginx_sites_available_path: "/etc/nginx/sites-available"
 nginx_sites_enabled_path: "/etc/nginx/sites-enabled"
-nginx_site_name: "icetony.devops.rebrain.srwx.net"
+nginx_site_name: "{{ inventory_hostname }}"
 nginx_worker_connections: "768"
 nginx_sendfile: "on"
 nginx_tcp_nopush: "on"

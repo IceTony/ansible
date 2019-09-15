@@ -1,6 +1,6 @@
 ---
 
-- name: copy virtual hosts configs
+- name: copy load balancer config
   template:
     src: site.j2
     dest: "{{ nginx_sites_available_path }}/{{ item }}"
@@ -10,24 +10,7 @@
   with_items:
     - "{{ nginx_site_name }}"
 
-- name: create virtual hosts folders
-  file:
-    path: "/var/www/{{ item }}"
-    state: directory
-    mode: 0755
-    owner: www-data
-    group: www-data
-  with_items:
-    - "{{ nginx_site_name }}"
-
-- name: create index files for virtual hosts
-  template:
-    src: index.html.j2
-    dest: /var/www/{{ item }}/index.html
-  with_items:
-    - "{{ nginx_site_name }}"
-
-- name: create virtual hosts symlinks
+- name: create load balancer config symlink
   file:
     src: "{{ nginx_sites_available_path }}/{{ item }}"
     dest: "{{ nginx_sites_enabled_path }}/{{ item }}"

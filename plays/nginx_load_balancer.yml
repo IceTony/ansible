@@ -1,0 +1,13 @@
+---
+
+- name: Install nginx and configure virtual hosts
+  hosts: nginx
+  gather_facts: yes
+  roles:
+    - nginx_configure_virtual_hosts
+
+- name: Configure nginx as load balancer
+  hosts: load_balancer
+  gather_facts: yes
+  roles:
+    - nginx_load_balancer

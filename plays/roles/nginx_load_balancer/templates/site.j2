@@ -1,0 +1,14 @@
+server {
+        listen   80;
+        server_name {{ item }} www.{{ item }};
+
+        location / {
+            proxy_pass http://backends;
+        }
+
+        # SSL configuration
+}
+
+upstream backends {
+    server {{ nginx_backend_address }};
+}

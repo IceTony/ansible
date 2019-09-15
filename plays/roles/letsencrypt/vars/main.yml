@@ -1,4 +1,7 @@
 # letsencrypt
+ansible_ssh_user: "root"
+nginx_site_name: "{{ inventory_hostname }}"
+nginx_sites_enabled_path: "/etc/nginx/sites-enabled"
 debian_site_root: "/var/www/{{ nginx_site_name }}/"
 redhat_site_root: "/usr/share/nginx/{{ nginx_site_name }}/"
 letsencrypt_mail: "icetony@mail.ru"

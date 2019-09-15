@@ -1,0 +1,11 @@
+---
+
+- name: configure load balancer on debian-based systems
+  include_tasks: configure_lb_debian.yml
+  when:
+    - ansible_os_family == "Debian"
+
+- name: configure load balancer on redhat-based systems
+  include_tasks: configure_lb_redhat.yml
+  when:
+    - ansible_os_family == "RedHat"
