@@ -53,7 +53,7 @@ resource "aws_route53_record" "icetony_nginx_frontend_dns" {
         echo "[load_balancer]" > frontend.ini;
         echo "${self.name}" >> frontend.ini;
     export ANSIBLE_HOST_KEY_CHECKING=False;
-	ansible-playbook -i frontend.ini ../plays/nginx_load_balancer.yml
+	ansible-playbook -i frontend.ini ../plays/nginx_load_balancer.yml --extra-vars '{"nginx_backend_address":"${aws_route53_record.icetony_nginx_backend_dns.name}"}'
     EOT  
   }
 }
