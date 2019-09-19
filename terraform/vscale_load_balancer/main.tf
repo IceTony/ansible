@@ -62,7 +62,7 @@ resource "local_file" "frontend_inventory" {
     command = <<EOT
       sleep 30;
       export ANSIBLE_HOST_KEY_CHECKING=False;
-      ansible-playbook -i frontend.ini ../plays/nginx_load_balancer.yml --extra-vars '{"nginx_backend_address":"${aws_route53_record.icetony_nginx_backend_dns.name}"}'
+      ansible-playbook -i frontend.ini ../../plays/nginx_load_balancer.yml --extra-vars '{"nginx_backend_address":"${aws_route53_record.icetony_nginx_backend_dns.name}"}'
     EOT
   }
 }
@@ -75,7 +75,7 @@ resource "local_file" "backend_inventory" {
     command = <<EOT
       sleep 30;
       export ANSIBLE_HOST_KEY_CHECKING=False;
-      ansible-playbook -i backend.ini ../plays/nginx.yml
+      ansible-playbook -i backend.ini ../../plays/nginx.yml
     EOT
   }
 }
