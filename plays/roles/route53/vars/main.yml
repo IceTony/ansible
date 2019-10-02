@@ -1,0 +1,14 @@
+---
+
+ansible_ssh_user: "root"
+
+public_ip: "{{ ansible_eth0.ipv4.address }}"
+private_ip: "{{ ansible_eth1.ipv4.address }}"
+
+aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+
+aws_route53_zone: "devops.rebrain.srwx.net"
+aws_route53_records:
+  - {zone: "{{ aws_route53_zone }}", record: "icetony-public-{{ vm_number }}.{{ aws_route53_zone }}", ip: "{{ public_ip }}"}
+  - {zone: "{{ aws_route53_zone }}", record: "icetony-private-{{ vm_number }}.{{ aws_route53_zone }}", ip: "{{ private_ip }}"}

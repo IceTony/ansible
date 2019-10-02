@@ -1,0 +1,25 @@
+---
+
+- name: install pip3
+  apt:
+    name: python3-pip
+    state: present
+    update_cache: yes
+
+- name: install boto
+  pip:
+    name: boto
+
+- name: set records in AWS
+  route53:
+    state: present
+    zone: "{{ item.zone }}"
+    record: "{{ item.record }}"
+    type: A
+    ttl: 300
+    value: "{{ item.ip }}"
+    wait: yes
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    overwrite: yes
+  with_items: "{{ aws_route53_records }}"

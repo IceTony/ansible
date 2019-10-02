@@ -1,0 +1,7 @@
+---
+
+- name: Add entries in Amazons Route53 DNS service
+  hosts: route53
+  gather_facts: yes
+  roles:
+    - route53
